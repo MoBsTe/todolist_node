@@ -104,6 +104,8 @@ function change_contant(e) {
 function confirmbtn(e) {
     const item = e.target;
     const confirm = item.closest('.list_item');
+    const confirmid = item.closest('.list_item').id;
+    let confirmIdNum = Number(confirmid);
     const text = confirm.querySelector('.text');
     let change = confirm.querySelector('.input_change');
     text.textContent = change.value;
@@ -113,7 +115,17 @@ function confirmbtn(e) {
     divConfirm.style.display = 'none';
     const divPen = confirm.querySelector('.pen');
     divPen.style.display = 'block';
-    // confirm.style.justifyContent = 'center';
+    console.log(confirmid);
+
+    axios.post('/change', {
+        id: confirmIdNum,
+        change: change.value
+    })
+        .then(function (response) {
+            console.log(response);
+        })
+    location.reload();
+
 };
 
 

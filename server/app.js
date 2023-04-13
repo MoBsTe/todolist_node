@@ -9,9 +9,9 @@ let mysql = require('mysql');
 
 
 let connection = mysql.createConnection({
-    host: '---',
-    user: '---',
-    password: '----',
+    host: '172.22.80.1',
+    user: 'Valery',
+    password: 'Mysql123123123!',
     database: 'todolist'
 });
 
@@ -25,7 +25,6 @@ connection.connect(function (err) {
 
 app.post("/order", (req, res, next) => {
     let post = { description: req.body.description };
-
     connection.query('INSERT INTO todolists SET ?', post, function (error, result, fields) {
         if (error) throw err;
         console.log("1 record inserted");
@@ -37,6 +36,21 @@ app.post("/remove", (req, res, next) => {
         if (error) throw err;
         console.log("1 record delated");
     })
+});
+
+
+app.post("/change", (req, res, next) => {
+    // console.log(req);
+    let param = [
+        req.body.change,
+        req.body.id
+    ]
+    connection.query('UPDATE todolists SET description = ? WHERE id = ?', param,
+        function (error, result) {
+            res.redirect('/orders')
+            if (error) throw err;
+            console.log("1 record update");
+        })
 });
 
 
